@@ -1,0 +1,15 @@
+{
+  "name": "cmpt-353-a3",
+  "version": "1.0.0",
+  "description": "Practice using MySQL with docker, to create database for storing data from the web server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
+}
