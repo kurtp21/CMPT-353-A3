@@ -6,7 +6,7 @@ services:
     platform: linux/x86_64
     container_name: db1
     volumes:
-      - /Users/kurtpagal/University/Year3/Fall-Term/CMPT-353/Assignments/CMPT-353-A3:/var/lib/mysql1
+      - ./CMPT-353-A3:/var/lib/mysql1
     environment:
       - MYSQL_ROOT_PASSWORD=admin
   node1:

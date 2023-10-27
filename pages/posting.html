@@ -1,3 +1,11 @@
+<!-- 
+    Name:               Kurt Pagal 
+    NSID:               zja64   
+    Student ID:         11314773
+    Course:             CMPT-353
+    Instructor:         Ralph Deters
+ -->
+ 
 <!DOCTYPE html>
 
 <html lang="en">
@@ -5,9 +13,74 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>CMPT-353 A3</title>
+        
+        <script>
+            function send() {
+                fetch('/addPost', {
+                    method: 'POST',
+                    body: new URLSearchParams({
+                        topic: document.getElementById("topic").value,
+                        data: document.getElementById("data").value
+                    }).toString(), headers: {
+                        "Content-type": "application/x-www-form-urlencoded"
+                    }
+                })
+                .then(response => response.json(), 
+                    document.getElementById("topic").value = "",
+                    document.getElementById("data").value = "")
+                .then(data => console.log(data))
+                .catch(error => console.log(error))
+                alert("Added posts into database");
+            }
+
+            function displayPosts() {
+                fetch('/getPosts', { 
+                    method: 'GET' 
+                }).then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById("Output");
+                    container.innerHTML = "";
+
+                    data.forEach(element => {
+                        const topic = document.createElement("h3");
+                        topic.textContent = element.topic;
+                        
+                        const data = document.createElement("p");
+                        data.textContent = element.data;
+    
+                        const post = document.createElement("div");
+                        post.appendChild(topic);
+                        post.appendChild(data);
+                        
+                        container.appendChild(post);
+                    });
+                }).catch(error => console.error(error))
+                alert("Retrieving posts from database");
+            }
+
+            window.addEventListener('load', function() {
+                displayPosts();
+            });
+        </script>
     </head>
 
     <body>
-        
+        <div style="display: flex; justify-content: flex-start; gap: 10px; height: 20px; align-items: baseline;">
+            <h2>Topic:</h2>
+            <input type="text" id="topic" placeholder="Enter topic">
+        </div>
+        <br>
+        <div style="display: flex; flex-direction: column;">
+            <h2>Data:</h2>
+            <textarea name="data" id="data" cols="30" rows="10" placeholder="Enter data"></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-start; gap: 10px;">
+            <button onclick="send()">Add Post</button>
+            <button onclick="displayPosts()">Get Posts</button>
+        </div>
+
+        <h2>Posts:</h2>
+        <div id="Output"></div>
     </body>
 </html>
